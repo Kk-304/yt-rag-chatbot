@@ -1,0 +1,17 @@
+[
+  {
+    "video_id": "J5_-l7WIO_w",
+    "question": "What is RAG and why is it used?",
+    "expected_answer": "RAG combines retrieval over external documents with LLM generation, used to ground answers in specific knowledge."
+  },
+  {
+    "video_id": "J5_-l7WIO_w",
+    "question": "What vector store does the tutorial use?",
+    "expected_answer": "FAISS"
+  },
+  {
+    "video_id": "J5_-l7WIO_w",
+    "question": "What does RecursiveCharacterTextSplitter do?",
+    "expected_answer": "Splits long text into overlapping chunks suitable for embedding."
+  }
+]
