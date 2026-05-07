@@ -12,7 +12,7 @@ The root URL serves a simple chat UI; `/docs` exposes interactive API documentat
 
 1. **Transcript ingestion** — `youtube-transcript-api` fetches the video's caption text.
 2. **Chunking** — `RecursiveCharacterTextSplitter` splits the transcript into 1,000-char chunks with 200-char overlap.
-3. **Embedding** — Google `text-embedding-004` converts each chunk to a vector.
+3. **Embedding** — Google `gemini-embedding-001` converts each chunk to a vector.
 4. **Indexing** — vectors stored in an in-memory **FAISS** index, cached per-video.
 5. **Retrieval** — for each question, the top 4 most relevant chunks are retrieved.
 6. **Generation** — `gemini-2.5-flash` answers using only the retrieved context, with an explicit anti-hallucination instruction.
