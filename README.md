@@ -4,8 +4,7 @@ A **Retrieval-Augmented Generation** chatbot that answers questions about any Yo
 
 ## Live demo
 
-> Replace this with your deployed URL once Render finishes the first build:
-> `https://yt-rag-chatbot.onrender.com`
+https://yt-rag-chatbot-irvl.onrender.com/
 
 The root URL serves a simple chat UI; `/docs` exposes interactive API documentation.
 
