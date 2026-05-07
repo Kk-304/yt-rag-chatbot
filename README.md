@@ -61,11 +61,3 @@ cp .env.example .env       # then add your Google API key (from aistudio.google.
 uvicorn app:app --reload
 ```
 Open http://localhost:8000
-
-## Evaluation
-
-A small evaluation harness is included for measuring quality:
-```bash
-python eval.py --url http://localhost:8000 --testset test_set.example.json
-```
-This writes `eval_results.json`, which you mark as correct/incorrect to compute accuracy + average latency.
