@@ -1,6 +1,6 @@
 # YouTube RAG Chatbot
 
-A **Retrieval-Augmented Generation** chatbot that answers questions about any YouTube video by grounding responses in its transcript. Built with **LangChain**, **OpenAI**, **FAISS**, and **FastAPI**, with a minimal HTML frontend.
+A **Retrieval-Augmented Generation** chatbot that answers questions about any YouTube video by grounding responses in its transcript. Built with **LangChain**, **Google Gemini**, **FAISS**, and **FastAPI**, with a minimal HTML frontend.
 
 ## Live demo
 
@@ -13,10 +13,10 @@ The root URL serves a simple chat UI; `/docs` exposes interactive API documentat
 
 1. **Transcript ingestion** — `youtube-transcript-api` fetches the video's caption text.
 2. **Chunking** — `RecursiveCharacterTextSplitter` splits the transcript into 1,000-char chunks with 200-char overlap.
-3. **Embedding** — OpenAI `text-embedding-3-small` converts each chunk to a vector.
+3. **Embedding** — Google `text-embedding-004` converts each chunk to a vector.
 4. **Indexing** — vectors stored in an in-memory **FAISS** index, cached per-video.
 5. **Retrieval** — for each question, the top 4 most relevant chunks are retrieved.
-6. **Generation** — `gpt-4o-mini` answers using only the retrieved context, with an explicit anti-hallucination instruction.
+6. **Generation** — `gemini-2.5-flash` answers using only the retrieved context, with an explicit anti-hallucination instruction.
 
 ## Stack
 
@@ -25,8 +25,8 @@ The root URL serves a simple chat UI; `/docs` exposes interactive API documentat
 | Frontend     | Vanilla HTML / CSS / JS (no framework)   |
 | Backend      | FastAPI + Uvicorn                        |
 | Orchestration| LangChain (LCEL)                         |
-| Embeddings   | OpenAI `text-embedding-3-small`          |
-| LLM          | OpenAI `gpt-4o-mini`                     |
+| Embeddings   | Google `text-embedding-004`              |
+| LLM          | Google `gemini-2.5-flash`                |
 | Vector store | FAISS (in-process, in-memory)            |
 | Transcripts  | `youtube-transcript-api` v1              |
 | Hosting      | Render (free web service)                |
@@ -58,10 +58,10 @@ Returns server status.
 
 ```bash
 pip install -r requirements.txt
-cp .env.example .env       # then add your OpenAI API key to .env
+cp .env.example .env       # then add your Google API key (from aistudio.google.com) to .env
 uvicorn app:app --reload
 ```
-Open http://localhost:8000/docs
+Open http://localhost:8000
 
 ## Evaluation
 

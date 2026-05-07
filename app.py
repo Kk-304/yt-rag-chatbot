@@ -45,18 +45,27 @@ class AskResponse(BaseModel):
 
 
 _STATIC_DIR = pathlib.Path(__file__).parent / "static"
-app.mount("/static", StaticFiles(directory=str(_STATIC_DIR)), name="static")
+_INDEX_HTML = _STATIC_DIR / "index.html"
+_HAS_FRONTEND = _INDEX_HTML.is_file()
+
+if _HAS_FRONTEND:
+    app.mount("/static", StaticFiles(directory=str(_STATIC_DIR)), name="static")
 
 
 @app.get("/", include_in_schema=False)
 def root():
-    """Serve the minimal HTML frontend."""
-    return FileResponse(_STATIC_DIR / "index.html")
+    """Serve the HTML frontend if present, else a JSON pointer to the API docs."""
+    if _HAS_FRONTEND:
+        return FileResponse(_INDEX_HTML)
+    return {
+        "status": "ok",
+        "message": "Frontend not found. Use /docs for the interactive API.",
+    }
 
 
 @app.get("/health")
 def health():
-    return {"status": "healthy", "openai_key_set": bool(os.getenv("OPENAI_API_KEY"))}
+    return {"status": "healthy", "google_api_key_set": bool(os.getenv("GOOGLE_API_KEY"))}
 
 
 @app.post("/ask", response_model=AskResponse)
@@ -66,8 +75,8 @@ def ask(req: AskRequest):
     First call for a video_id: fetches transcript, embeds, and caches the chain.
     Subsequent calls reuse the cached chain (much faster).
     """
-    if not os.getenv("OPENAI_API_KEY"):
-        raise HTTPException(500, "Server is missing OPENAI_API_KEY.")
+    if not os.getenv("GOOGLE_API_KEY"):
+        raise HTTPException(500, "Server is missing GOOGLE_API_KEY.")
 
     start = time.time()
     cache_hit = req.video_id in _chain_cache
